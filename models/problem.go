@@ -2,7 +2,7 @@ package models
 
 import "gorm.io/gorm"
 
-type problem struct {
+type Problem struct {
 	gorm.Model
 	Identity   string `json:"identity" gorm:"column:identity;type:varchar(36)"`        // 问题的唯一标识
 	CategoryId string `json:"category_id" gorm:"column:category_id;type:varchar(255)"` // 分类id
@@ -12,6 +12,6 @@ type problem struct {
 	MaxRuntime string `json:"max_runtime" gorm:"column:max_runtime;type:int"`          // 最大运行时间
 }
 
-func (*problem) TableName() string {
+func (*Problem) TableName() string {
 	return "problem"
 }

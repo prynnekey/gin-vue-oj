@@ -14,3 +14,14 @@ type User struct {
 func (*User) TableName() string {
 	return "user"
 }
+
+// 获取所有用户
+func GetUserList() ([]User, error) {
+	var user []User
+	err := DB.Find(&user).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
