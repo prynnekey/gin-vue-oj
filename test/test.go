@@ -17,7 +17,7 @@ func test() {
 		panic("connect to database failed:" + err.Error())
 	}
 
-	user := models.User{
+	user := models.UserBasic{
 		Identity: "test",
 		Username: "test001",
 		Password: "testtest",

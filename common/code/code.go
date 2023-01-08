@@ -2,7 +2,7 @@ package code
 
 const (
 	OK    = 200
-	ERROR = 300
+	ERROR = -1
 
 	// OK
 	GET_OK    = 20000
