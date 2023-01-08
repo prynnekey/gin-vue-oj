@@ -17,6 +17,7 @@ func Init() *gin.Engine {
 	// 路由规则
 	r.GET("test", service.Ping())
 	r.GET("user-list", service.GetUserList())
+	r.GET("problem-list", service.GetProblemList())
 
 	return r
 }
