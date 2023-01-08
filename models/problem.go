@@ -18,13 +18,18 @@ func (*Problem) TableName() string {
 	return "problem"
 }
 
-func GetProblemList(page int, pageSize int) (*[]Problem, int64, error) {
+func GetProblemList(page int, pageSize int, keyWord string) (*[]Problem, int64, error) {
 	var problemList *[]Problem
 	var count int64
 
 	// 分页查询 查询第二页 每页10条
 	// select * from problem limit 10 offset 10 orderby update_at
-	err := DB.Model(&Problem{}).Count(&count).Limit(pageSize).Offset((page - 1) * pageSize).Find(&problemList).Error
+	err := DB.Model(&Problem{}).
+		Count(&count).
+		Where("title like ? OR content like ?", "%"+keyWord+"%", "%"+keyWord+"%").
+		Limit(pageSize).Offset((page - 1) * pageSize).
+		Find(&problemList).Error
+
 	if err != nil {
 		return nil, 0, err
 	}

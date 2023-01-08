@@ -26,17 +26,38 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "请输入当前页，默认第一页",
+                        "description": "请输入当前页,默认第一页",
                         "name": "page",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "每页多少条数据",
+                        "description": "每页多少条数据,默认20条",
                         "name": "pageSize",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "查询的关键字",
+                        "name": "keyWord",
                         "in": "query"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "添加问题",
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "添加一个问题",
                 "responses": {
                     "200": {
                         "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
