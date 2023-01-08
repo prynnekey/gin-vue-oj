@@ -41,3 +41,33 @@ func GetProblemList() gin.HandlerFunc {
 		}, "查询成功")
 	}
 }
+
+// AddProblem
+// @Summary 添加一个问题
+// @Param problem json "问题的数据"
+// @Description 添加问题
+// @Tags 公共方法
+// @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
+// @Router /problem-list [post]
+func AddProblem() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var problem models.Problem
+		ctx.ShouldBindJSON(&problem)
+
+		i, err := models.AddProblem(&problem)
+		if err != nil {
+			log.Println("AddProblem Error:", err)
+			response.Failed(ctx, code.ERROR, "err:"+err.Error())
+			return
+		}
+
+		if i == 0 {
+			response.Failed(ctx, code.ERROR, "添加失败")
+			return
+		}
+
+		response.Success(ctx, code.OK, gin.H{
+			"problem": problem,
+		}, "添加成功")
+	}
+}

@@ -1,6 +1,8 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Problem struct {
 	gorm.Model
@@ -28,4 +30,10 @@ func GetProblemList(page int, pageSize int) (*[]Problem, int64, error) {
 	}
 
 	return problemList, count, nil
+}
+
+// 添加一条数据 返回影响的行数和错误信息
+func AddProblem(pro *Problem) (int64, error) {
+	d := DB.Model(&Problem{}).Create(&pro)
+	return d.RowsAffected, d.Error
 }
