@@ -22,7 +22,7 @@ func GetProblemList(page int, pageSize int) (*[]Problem, int64, error) {
 
 	// 分页查询 查询第二页 每页10条
 	// select * from problem limit 10 offset 10 orderby update_at
-	err := DB.Count(&count).Limit(pageSize).Offset((page - 1) * pageSize).Find(&problemList).Error
+	err := DB.Model(&Problem{}).Count(&count).Limit(pageSize).Offset((page - 1) * pageSize).Find(&problemList).Error
 	if err != nil {
 		return nil, 0, err
 	}
