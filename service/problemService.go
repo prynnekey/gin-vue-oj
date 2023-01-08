@@ -5,10 +5,10 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/prynnekey/gin-vue-oj/common/code"
 	"github.com/prynnekey/gin-vue-oj/common/response"
 	"github.com/prynnekey/gin-vue-oj/define"
 	"github.com/prynnekey/gin-vue-oj/models"
+	"gorm.io/gorm"
 )
 
 // GetProblemList
@@ -28,18 +28,22 @@ func GetProblemList() gin.HandlerFunc {
 
 		if err != nil {
 			log.Println("GetProblemList Param strconv Error:", err)
-			response.Failed(ctx, code.ERROR, "参数类型错误")
+			response.Failed(ctx, "参数类型错误")
 			return
 		}
 
 		proList, count, err := models.GetProblemList(page, pageSize, keyWord)
 		if err != nil {
+			if err == gorm.ErrRecordNotFound {
+				response.Failed(ctx, "记录不存在")
+				return
+			}
 			log.Println("GetProblemList Param strconv Error:", err)
-			response.Failed(ctx, code.ERROR, "查询数据库失败")
+			response.Failed(ctx, "查询数据库失败")
 			return
 		}
 
-		response.Success(ctx, code.OK, gin.H{
+		response.Success(ctx, gin.H{
 			"count": count,
 			"list":  proList,
 		}, "查询成功")
@@ -54,22 +58,22 @@ func GetProblemList() gin.HandlerFunc {
 // @Router /problem-list [post]
 func AddProblem() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		var problem models.Problem
+		var problem models.ProblemBasic
 		ctx.ShouldBindJSON(&problem)
 
 		i, err := models.AddProblem(&problem)
 		if err != nil {
 			log.Println("AddProblem Error:", err)
-			response.Failed(ctx, code.ERROR, "err:"+err.Error())
+			response.Failed(ctx, "err:"+err.Error())
 			return
 		}
 
 		if i == 0 {
-			response.Failed(ctx, code.ERROR, "添加失败")
+			response.Failed(ctx, "添加失败")
 			return
 		}
 
-		response.Success(ctx, code.OK, gin.H{
+		response.Success(ctx, gin.H{
 			"problem": problem,
 		}, "添加成功")
 	}
