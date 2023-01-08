@@ -16,6 +16,7 @@ import (
 // @Param page query int false "请输入当前页,默认第一页"
 // @Param pageSize query int false "每页多少条数据,默认20条"
 // @Param keyWord query string false "查询的关键字"
+// @Param category_identity query string false "分类的唯一标识"
 // @Description 获取问题列表
 // @Tags 公共方法
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
@@ -25,6 +26,7 @@ func GetProblemList() gin.HandlerFunc {
 		page, _ := strconv.Atoi(ctx.DefaultQuery("page", define.PROBLEM_GET_PAGE))
 		pageSize, err := strconv.Atoi(ctx.DefaultQuery("pageSize", define.PROBLEM_GET_PAGE_SIZE))
 		keyWord := ctx.Query("keyWord")
+		categoryIdentity := ctx.Query("category_identity")
 
 		if err != nil {
 			log.Println("GetProblemList Param strconv Error:", err)
@@ -32,13 +34,13 @@ func GetProblemList() gin.HandlerFunc {
 			return
 		}
 
-		proList, count, err := models.GetProblemList(page, pageSize, keyWord)
+		proList, count, err := models.GetProblemList(page, pageSize, keyWord, categoryIdentity)
 		if err != nil {
 			if err == gorm.ErrRecordNotFound {
 				response.Failed(ctx, "记录不存在")
 				return
 			}
-			log.Println("GetProblemList Param strconv Error:", err)
+			log.Println("GetProblemList Database Error:", err)
 			response.Failed(ctx, "查询数据库失败")
 			return
 		}

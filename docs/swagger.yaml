@@ -17,6 +17,10 @@ paths:
         in: query
         name: keyWord
         type: string
+      - description: 分类的唯一标识
+        in: query
+        name: category_identity
+        type: string
       responses:
         "200":
           description: '{“code”: "200", "msg":"", "data": ""}'

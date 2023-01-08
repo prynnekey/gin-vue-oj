@@ -2,7 +2,7 @@ package models
 
 import "gorm.io/gorm"
 
-type User struct {
+type UserBasic struct {
 	gorm.Model
 	Identity string `json:"identity" gorm:"column:identity;type:varchar(36)"`  // 用户的唯一标识
 	Username string `json:"username" gorm:"column:username;type:varchar(100)"` // 用户名
@@ -11,13 +11,13 @@ type User struct {
 	Mail     string `json:"mail" gorm:"column:mail;type:varchar(100)"`         // 邮箱
 }
 
-func (*User) TableName() string {
-	return "user"
+func (*UserBasic) TableName() string {
+	return "user_basic"
 }
 
 // 获取所有用户
-func GetUserList() ([]User, error) {
-	var user []User
+func GetUserList() ([]UserBasic, error) {
+	var user []UserBasic
 	err := DB.Find(&user).Error
 	if err != nil {
 		return nil, err

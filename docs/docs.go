@@ -41,6 +41,12 @@ const docTemplate = `{
                         "description": "查询的关键字",
                         "name": "keyWord",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "分类的唯一标识",
+                        "name": "category_identity",
+                        "in": "query"
                     }
                 ],
                 "responses": {
