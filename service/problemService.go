@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/prynnekey/gin-vue-oj/common/code"
 	"github.com/prynnekey/gin-vue-oj/common/response"
+	"github.com/prynnekey/gin-vue-oj/define"
 	"github.com/prynnekey/gin-vue-oj/models"
 )
 
@@ -20,8 +21,8 @@ import (
 // @Router /problem-list [get]
 func GetProblemList() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		page, _ := strconv.Atoi(ctx.DefaultQuery("page", "1"))
-		pageSize, err := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+		page, _ := strconv.Atoi(ctx.DefaultQuery("page", define.PROBLEM_GET_PAGE))
+		pageSize, err := strconv.Atoi(ctx.DefaultQuery("pageSize", define.PROBLEM_GET_PAGE_SIZE))
 		if err != nil {
 			log.Println("GetProblemList Param strconv Error:", err)
 			response.Failed(ctx, code.ERROR, "参数类型错误")
