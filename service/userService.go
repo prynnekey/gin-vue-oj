@@ -21,6 +21,7 @@ func GetUserList() gin.HandlerFunc {
 		user, err := models.GetUserList()
 		if err != nil {
 			ctx.JSON(http.StatusOK, "查询失败")
+			return
 		}
 		ctx.JSON(http.StatusOK, gin.H{
 			"user": user,
