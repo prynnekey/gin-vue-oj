@@ -1,4 +1,19 @@
 info:
   contact: {}
-paths: {}
+paths:
+  /user-list:
+    get:
+      consumes:
+      - application/json
+      description: 获取用户列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{“code”: "200", "msg":"", "data": ""}'
+          schema:
+            type: string
+      summary: 获取所有用户
+      tags:
+      - 公共方法
 swagger: "2.0"
