@@ -1,6 +1,26 @@
 info:
   contact: {}
 paths:
+  /problem-list:
+    get:
+      description: 获取问题列表
+      parameters:
+      - description: 请输入当前页，默认第一页
+        in: query
+        name: page
+        type: integer
+      - description: 每页多少条数据
+        in: query
+        name: pageSize
+        type: integer
+      responses:
+        "200":
+          description: '{“code”: "200", "msg":"", "data": ""}'
+          schema:
+            type: string
+      summary: 获取问题列表
+      tags:
+      - 公共方法
   /user-list:
     get:
       consumes:
