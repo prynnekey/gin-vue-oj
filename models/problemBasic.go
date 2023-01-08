@@ -6,6 +6,7 @@ import (
 
 type ProblemBasic struct {
 	gorm.Model
+	// NOTE: 不明白为什么下面的gorm这么写
 	Identity          string             `json:"identity" gorm:"column:identity;type:varchar(36)"`              // 问题的唯一标识
 	ProblemCategories *[]ProblemCategory `json:"problem_categories" gorm:"foreignKey:problem_id;references:id"` // 关联问题的分类表
 	Title             string             `json:"title" gorm:"column:title;type:varchar(255)"`                   // 问题的标题
@@ -35,6 +36,7 @@ func GetProblemList(page int, pageSize int, keyWord string, categoryIdentity str
 		return nil, 0, tx.Error
 	}
 
+	// NOTE: 下面代码看不懂
 	if categoryIdentity != "" {
 		err := tx.Joins("RIGHT JOIN problem_category pc ON pc.problem_id = problem_basic.id").
 			Where("pc.category_id = (SELECT cb.id FROM category_basic cb WHERE cb.identity = ? )", categoryIdentity).Error
