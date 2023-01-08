@@ -52,6 +52,32 @@ func GetProblemList() gin.HandlerFunc {
 	}
 }
 
+// GetProblemDetail
+// @Summary 问题详情
+// @Param identity query string false "问题的唯一标识"
+// @Description 获取问题详细信息
+// @Tags 公共方法
+// @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
+// @Router /problem-detail [get]
+func GetProblemDetail() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 获取参数
+		identity := ctx.Query("identity")
+
+		problem, err := models.GetProblemDetail(identity)
+		if err != nil {
+			if err == gorm.ErrRecordNotFound {
+				response.Failed(ctx, "数据不存在")
+				return
+			}
+			response.Failed(ctx, "查询失败:"+err.Error())
+			return
+		}
+
+		response.Success(ctx, problem, "查询成功")
+	}
+}
+
 // AddProblem
 // @Summary 添加一个问题
 // @Description 添加问题

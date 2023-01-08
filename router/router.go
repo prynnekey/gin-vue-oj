@@ -19,6 +19,7 @@ func Init() *gin.Engine {
 	r.GET("user-list", service.GetUserList())
 
 	r.GET("problem-list", service.GetProblemList())
+	r.GET("problem-detail", service.GetProblemDetail())
 	r.POST("problem-list", service.AddProblem())
 
 	return r

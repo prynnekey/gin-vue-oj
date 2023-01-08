@@ -55,6 +55,20 @@ func GetProblemList(page int, pageSize int, keyWord string, categoryIdentity str
 	return problemList, count, nil
 }
 
+func GetProblemDetail(identity string) (*ProblemBasic, error) {
+	var problem ProblemBasic
+
+	err := DB.Preload("ProblemCategories").
+		Preload("ProblemCategories.CategoryBasic").
+		Where("identity = ?", identity).
+		First(&problem).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &problem, nil
+}
+
 // 添加一条数据 返回影响的行数和错误信息
 func AddProblem(pro *ProblemBasic) (int64, error) {
 	d := DB.Model(&ProblemBasic{}).Create(&pro)

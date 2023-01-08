@@ -1,6 +1,22 @@
 info:
   contact: {}
 paths:
+  /problem-detail:
+    get:
+      description: 获取问题详细信息
+      parameters:
+      - description: 问题的唯一标识
+        in: query
+        name: identity
+        type: string
+      responses:
+        "200":
+          description: '{“code”: "200", "msg":"", "data": ""}'
+          schema:
+            type: string
+      summary: 问题详情
+      tags:
+      - 公共方法
   /problem-list:
     get:
       description: 获取问题列表
