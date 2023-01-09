@@ -36,3 +36,13 @@ func GetUserList() ([]UserBasic, error) {
 
 	return user, nil
 }
+
+func Login(username string) (*UserBasic, error) {
+	var u UserBasic
+	err := DB.Where("username = ?", username).First(&u).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &u, nil
+}

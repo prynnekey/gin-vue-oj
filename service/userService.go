@@ -64,3 +64,52 @@ func GetUserList() gin.HandlerFunc {
 		})
 	}
 }
+
+// Login
+// @Summary 用户登录
+// @Description 用户登录
+// @Tags 公共方法
+// @Param username formData string false "用户名"
+// @Param password formData string false "密码"
+// @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
+// @Router /login [post]
+func Login() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 获取登录的用户名和密码
+		username := ctx.PostForm("username")
+		password := ctx.PostForm("password")
+
+		// 校验输入格式
+		if username == "" || password == "" {
+			response.Failed(ctx, "用户名或密码不能为空")
+			return
+		}
+
+		// 将密码进行md5加密
+		// password = utils.MD5(password)
+
+		// 根据用户名查询数据
+		ub, err := models.Login(username)
+		if err != nil {
+			if err == gorm.ErrRecordNotFound {
+				// 没查到 提示用户不存在
+				response.Failed(ctx, "用户不存在")
+				return
+			}
+			response.Failed(ctx, "err:"+err.Error())
+			return
+		}
+
+		// 将查询到的数据与用户输入的数据对比
+		if ub.Password != password {
+			// 对比失败 返回密码错误
+			response.Failed(ctx, "密码错误")
+			return
+		}
+
+		// 对比成功 返回登陆成功
+		response.Success(ctx, gin.H{
+			"token": "token",
+		}, "登录成功")
+	}
+}
