@@ -20,7 +20,10 @@ func (*SubmitBasic) TableName() string {
 // 获取提交列表
 func GetSubmitList(page, pageSize int, problemIdentity, userIdentity string, status int) (*[]SubmitBasic, int64, error) {
 	tx := DB.Model(&SubmitBasic{}).
-		Preload("ProblemBasic").
+		Preload("ProblemBasic", func(db *gorm.DB) *gorm.DB {
+			// 忽略content字段
+			return db.Omit("content")
+		}).
 		Preload("UserBasic")
 
 	// 条件查询
