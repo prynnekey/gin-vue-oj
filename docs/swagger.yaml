@@ -55,6 +55,38 @@ paths:
       summary: 添加一个问题
       tags:
       - 公共方法
+  /submit-list:
+    get:
+      description: 获取问题列表
+      parameters:
+      - description: 请输入当前页,默认第一页
+        in: query
+        name: page
+        type: integer
+      - description: 每页多少条数据,默认20条
+        in: query
+        name: pageSize
+        type: integer
+      - description: 问题的唯一标识
+        in: query
+        name: problem_identity
+        type: string
+      - description: 用户的唯一标识
+        in: query
+        name: user_identity
+        type: string
+      - description: 提交的状态【-1-待判断，1-答案正确，2-答案错误，3-运行超时，4-运行超内存】
+        in: query
+        name: status
+        type: integer
+      responses:
+        "200":
+          description: '{“code”: "200", "msg":"", "data": ""}'
+          schema:
+            type: string
+      summary: 获取提交记录列表
+      tags:
+      - 公共方法
   /user-detail:
     get:
       description: 获取用户详细信息
