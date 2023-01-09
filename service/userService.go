@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/prynnekey/gin-vue-oj/common/response"
 	"github.com/prynnekey/gin-vue-oj/models"
+	"github.com/prynnekey/gin-vue-oj/utils"
 	"gorm.io/gorm"
 )
 
@@ -107,9 +108,15 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
-		// 对比成功 返回登陆成功
+		// 对比成功 生成token
+		tokenString, err := utils.GenerateToken(ub.Identity, ub.Username)
+		if err != nil {
+			response.Failed(ctx, "生成token失败:"+err.Error())
+			return
+		}
+
 		response.Success(ctx, gin.H{
-			"token": "token",
+			"token": tokenString,
 		}, "登录成功")
 	}
 }
