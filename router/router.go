@@ -15,12 +15,14 @@ func Init() *gin.Engine {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// 路由规则
-	r.GET("test", service.Ping())
-	r.GET("user-list", service.GetUserList())
 
+	// 问题
 	r.GET("problem-list", service.GetProblemList())
 	r.GET("problem-detail", service.GetProblemDetail())
 	r.POST("problem-list", service.AddProblem())
+
+	// 用户
+	r.GET("user-detail", service.GetUserDetail())
 
 	return r
 }

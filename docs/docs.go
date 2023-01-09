@@ -99,6 +99,31 @@ const docTemplate = `{
                 }
             }
         },
+        "/user-detail": {
+            "get": {
+                "description": "获取用户详细信息",
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "获取用户详细信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户的唯一标识",
+                        "name": "identity",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user-list": {
             "get": {
                 "description": "获取用户列表",

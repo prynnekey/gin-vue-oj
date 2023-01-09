@@ -15,6 +15,17 @@ func (*UserBasic) TableName() string {
 	return "user_basic"
 }
 
+// 根据用户唯一标识获取用户
+func GetUserDetail(identity string) (*UserBasic, error) {
+	var user UserBasic
+	err := DB.Where("identity = ?", identity).Omit("password").First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
 // 获取所有用户
 func GetUserList() ([]UserBasic, error) {
 	var user []UserBasic
