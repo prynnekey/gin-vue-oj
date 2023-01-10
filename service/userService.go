@@ -262,7 +262,14 @@ func Register() gin.HandlerFunc {
 			return
 		}
 
-		// 注册成功
-		response.Success(ctx, user, "注册成功")
+		// 注册成功 生成token 使得用户直接登录
+		token, err := utils.GenerateToken(identity, username)
+		if err != nil {
+			response.Failed(ctx, "生成token失败，请重新登陆:"+err.Error())
+			return
+		}
+		response.Success(ctx, gin.H{
+			"token": token,
+		}, "注册成功")
 	}
 }
