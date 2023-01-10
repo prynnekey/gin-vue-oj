@@ -1,6 +1,12 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"context"
+	"time"
+
+	"github.com/prynnekey/gin-vue-oj/define"
+	"gorm.io/gorm"
+)
 
 type UserBasic struct {
 	gorm.Model
@@ -19,6 +25,17 @@ func (*UserBasic) TableName() string {
 func GetUserDetail(identity string) (*UserBasic, error) {
 	var user UserBasic
 	err := DB.Where("identity = ?", identity).Omit("password").First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+// 根据用户名获取用户
+func GetUserByUsername(username string) (*UserBasic, error) {
+	var user UserBasic
+	err := DB.Where("username = ?", username).Omit("password").First(&user).Error
 	if err != nil {
 		return nil, err
 	}
@@ -45,4 +62,37 @@ func Login(username string) (*UserBasic, error) {
 	}
 
 	return &u, nil
+}
+
+func Register(userBasic *UserBasic) (int64, error) {
+	d := DB.Create(&userBasic)
+	return d.RowsAffected, d.Error
+}
+
+var ctx = context.Background()
+
+// 将验证码存入Redis中
+func SaveCodeWithRedis(mail, code string) error {
+	// key   user:email:mail
+	key := define.REDIS_SAVE_EMAIL_CODE + mail
+	// 过期时间5分钟
+	_, err := REDIS.SetNX(ctx, key, code, 5*time.Minute).Result()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// 获取Redis中的验证码
+func GetCodeWithRedis(mail string) (string, error) {
+	// key   user:email:mail
+	key := define.REDIS_SAVE_EMAIL_CODE + mail
+	// 过期时间5分钟
+	code, err := REDIS.Get(ctx, key).Result()
+	if err != nil {
+		return "", err
+	}
+
+	return code, nil
 }
