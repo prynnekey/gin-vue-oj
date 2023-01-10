@@ -87,7 +87,7 @@ func Login() gin.HandlerFunc {
 		}
 
 		// 将密码进行md5加密
-		// password = utils.MD5(password)
+		password = utils.MD5(password)
 
 		// 根据用户名查询数据
 		ub, err := models.Login(username)
@@ -140,15 +140,129 @@ func SendCode() gin.HandlerFunc {
 		}
 
 		// 生成验证码
-		code := "123456"
+		code := utils.GenerateCode()
+
+		// 将生成的验证码存入Redis中
+		err := models.SaveCodeWithRedis(email, code)
+		if err != nil {
+			response.Failed(ctx, "发生错误"+err.Error())
+			return
+		}
 
 		// 发送邮箱
-		err := utils.SendCode(email, code)
+		err = utils.SendCode(email, code)
 		if err != nil {
 			response.Failed(ctx, "发送失败:"+err.Error())
 			return
 		}
 
 		response.Success(ctx, code, "验证码发送成功")
+	}
+}
+
+// Register
+// @Summary 用户注册
+// @Description 用户注册
+// @Tags 公共方法
+// @Param username formData string false "用户名"
+// @Param password formData string false "密码"
+// @Param confirm_password formData string false "确认密码"
+// @Param phone formData string false "手机号"
+// @Param mail formData string false "邮箱"
+// @Param code formData string false "验证码"
+// @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
+// @Router /register [post]
+func Register() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 获取参数
+		username := ctx.PostForm("username")
+		password := ctx.PostForm("password")
+		confirmPassword := ctx.PostForm("confirm_password")
+		phone := ctx.PostForm("phone")
+		mail := ctx.PostForm("mail")
+		code := ctx.PostForm("code")
+
+		// 校验数据格式
+		if username == "" {
+			response.Failed(ctx, "用户名为空")
+			return
+		}
+
+		if password == "" {
+			response.Failed(ctx, "密码为空")
+			return
+		}
+
+		if confirmPassword == "" {
+			response.Failed(ctx, "确认密码为空")
+			return
+		}
+
+		if phone == "" {
+			response.Failed(ctx, "手机号为空")
+			return
+		}
+
+		if mail == "" {
+			response.Failed(ctx, "邮箱为空")
+			return
+		}
+
+		if code == "" {
+			response.Failed(ctx, "验证码为空")
+			return
+		}
+
+		if password != confirmPassword {
+			response.Failed(ctx, "两次密码不一致")
+			return
+		}
+
+		// 如果用户名存在 则返回错误信息
+		_, err := models.GetUserByUsername(username)
+		if err == nil {
+			response.Failed(ctx, "用户名已存在")
+			return
+		}
+
+		if err != gorm.ErrRecordNotFound {
+			response.Failed(ctx, "用户名已存在")
+			return
+		}
+
+		// 根据邮箱从Redis中获取验证码
+		redisCode, _ := models.GetCodeWithRedis(mail)
+
+		// 对比输入的验证码是否正确
+		if code != redisCode {
+			// 不正确
+			response.Failed(ctx, "验证码不正确")
+			return
+		}
+
+		// 将密码进行md5加密
+		password = utils.MD5(password)
+
+		// 生成用户唯一标识 uuid
+		identity := utils.GenerateUUID()
+
+		// 将数据封装为user类
+		user := models.UserBasic{
+			Identity: identity,
+			Username: username,
+			Password: password,
+			Phone:    phone,
+			Mail:     mail,
+		}
+
+		// 将数据插入数据库
+		i, err := models.Register(&user)
+		if err != nil || i == 0 {
+			response.Failed(ctx, "注册失败:"+err.Error())
+			return
+		}
+
+		// 注册成功
+		response.Success(ctx, user, "注册成功")
 	}
 }
