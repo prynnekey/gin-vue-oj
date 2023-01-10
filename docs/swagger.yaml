@@ -75,6 +75,42 @@ paths:
       summary: 添加一个问题
       tags:
       - 公共方法
+  /register:
+    post:
+      description: 用户注册
+      parameters:
+      - description: 用户名
+        in: formData
+        name: username
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        type: string
+      - description: 确认密码
+        in: formData
+        name: confirm_password
+        type: string
+      - description: 手机号
+        in: formData
+        name: phone
+        type: string
+      - description: 邮箱
+        in: formData
+        name: mail
+        type: string
+      - description: 验证码
+        in: formData
+        name: code
+        type: string
+      responses:
+        "200":
+          description: '{“code”: "200", "msg":"", "data": ""}'
+          schema:
+            type: string
+      summary: 用户注册
+      tags:
+      - 公共方法
   /send-code:
     post:
       description: 发送邮箱验证码

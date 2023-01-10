@@ -118,6 +118,61 @@
                 }
             }
         },
+        "/register": {
+            "post": {
+                "description": "用户注册",
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "用户注册",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "username",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "密码",
+                        "name": "password",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "确认密码",
+                        "name": "confirm_password",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "手机号",
+                        "name": "phone",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "邮箱",
+                        "name": "mail",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "验证码",
+                        "name": "code",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/send-code": {
             "post": {
                 "description": "发送邮箱验证码",
