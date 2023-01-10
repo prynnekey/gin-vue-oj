@@ -164,12 +164,12 @@ func SendCode() gin.HandlerFunc {
 // @Summary 用户注册
 // @Description 用户注册
 // @Tags 公共方法
-// @Param username formData string false "用户名"
-// @Param password formData string false "密码"
-// @Param confirm_password formData string false "确认密码"
+// @Param username formData string true "用户名"
+// @Param password formData string true "密码"
+// @Param confirm_password formData string true "确认密码"
 // @Param phone formData string false "手机号"
-// @Param mail formData string false "邮箱"
-// @Param code formData string false "验证码"
+// @Param mail formData string true "邮箱"
+// @Param code formData string true "验证码"
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
 // @Router /register [post]
 func Register() gin.HandlerFunc {
@@ -195,11 +195,6 @@ func Register() gin.HandlerFunc {
 
 		if confirmPassword == "" {
 			response.Failed(ctx, "确认密码为空")
-			return
-		}
-
-		if phone == "" {
-			response.Failed(ctx, "手机号为空")
 			return
 		}
 

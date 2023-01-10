@@ -142,19 +142,22 @@ const docTemplate = `{
                         "type": "string",
                         "description": "用户名",
                         "name": "username",
-                        "in": "formData"
+                        "in": "formData",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "密码",
                         "name": "password",
-                        "in": "formData"
+                        "in": "formData",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "确认密码",
                         "name": "confirm_password",
-                        "in": "formData"
+                        "in": "formData",
+                        "required": true
                     },
                     {
                         "type": "string",
@@ -166,13 +169,15 @@ const docTemplate = `{
                         "type": "string",
                         "description": "邮箱",
                         "name": "mail",
-                        "in": "formData"
+                        "in": "formData",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "验证码",
                         "name": "code",
-                        "in": "formData"
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {

@@ -82,14 +82,17 @@ paths:
       - description: 用户名
         in: formData
         name: username
+        required: true
         type: string
       - description: 密码
         in: formData
         name: password
+        required: true
         type: string
       - description: 确认密码
         in: formData
         name: confirm_password
+        required: true
         type: string
       - description: 手机号
         in: formData
@@ -98,10 +101,12 @@ paths:
       - description: 邮箱
         in: formData
         name: mail
+        required: true
         type: string
       - description: 验证码
         in: formData
         name: code
+        required: true
         type: string
       responses:
         "200":
