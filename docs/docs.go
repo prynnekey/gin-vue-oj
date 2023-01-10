@@ -130,6 +130,31 @@ const docTemplate = `{
                 }
             }
         },
+        "/send-code": {
+            "post": {
+                "description": "发送邮箱验证码",
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "发送邮箱验证码",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户邮箱",
+                        "name": "email",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/submit-list": {
             "get": {
                 "description": "获取问题列表",

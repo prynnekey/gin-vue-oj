@@ -120,3 +120,35 @@ func Login() gin.HandlerFunc {
 		}, "登录成功")
 	}
 }
+
+// SendCode
+// @Summary 发送邮箱验证码
+// @Description 发送邮箱验证码
+// @Tags 公共方法
+// @Param email formData string false "用户邮箱"
+// @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
+// @Router /send-code [post]
+func SendCode() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 获取邮箱
+		email := ctx.PostForm("email")
+
+		// 校验邮箱格式
+		if email == "" {
+			response.Failed(ctx, "输入的电子邮箱为空")
+			return
+		}
+
+		// 生成验证码
+		code := "123456"
+
+		// 发送邮箱
+		err := utils.SendCode(email, code)
+		if err != nil {
+			response.Failed(ctx, "发送失败:"+err.Error())
+			return
+		}
+
+		response.Success(ctx, code, "验证码发送成功")
+	}
+}
