@@ -142,17 +142,17 @@ func SendCode() gin.HandlerFunc {
 		// 生成验证码
 		code := utils.GenerateCode()
 
-		// 将生成的验证码存入Redis中
-		err := models.SaveCodeWithRedis(email, code)
+		// 发送邮箱
+		err := utils.SendCode(email, code)
 		if err != nil {
-			response.Failed(ctx, "发生错误"+err.Error())
+			response.Failed(ctx, "发送失败:"+err.Error())
 			return
 		}
 
-		// 发送邮箱
-		err = utils.SendCode(email, code)
+		// 将生成的验证码存入Redis中
+		err = models.SaveCodeWithRedis(email, code)
 		if err != nil {
-			response.Failed(ctx, "发送失败:"+err.Error())
+			response.Failed(ctx, "发生错误"+err.Error())
 			return
 		}
 
