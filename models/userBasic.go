@@ -10,11 +10,13 @@ import (
 
 type UserBasic struct {
 	gorm.Model
-	Identity string `json:"identity" gorm:"column:identity;type:varchar(36)"`  // 用户的唯一标识
-	Username string `json:"username" gorm:"column:username;type:varchar(100)"` // 用户名
-	Password string `json:"password" gorm:"column:password;type:varchar(32)"`  // 密码
-	Phone    string `json:"phone" gorm:"column:phone;type:varchar(20)"`        // 手机号
-	Mail     string `json:"mail" gorm:"column:mail;type:varchar(100)"`         // 邮箱
+	Identity         string `json:"identity" gorm:"column:identity;type:varchar(36)"`             // 用户的唯一标识
+	Username         string `json:"username" gorm:"column:username;type:varchar(100)"`            // 用户名
+	Password         string `json:"password" gorm:"column:password;type:varchar(32)"`             // 密码
+	Phone            string `json:"phone" gorm:"column:phone;type:varchar(20)"`                   // 手机号
+	Mail             string `json:"mail" gorm:"column:mail;type:varchar(100)"`                    // 邮箱
+	FinishProblemNum int    `json:"finish_problem_num" gorm:"column:finish_problem_num;type:int"` // 完成的问题个数
+	SubmitProblemNum int    `json:"submit_problem_num" gorm:"column:submit_problem_num;type:int"` // 提交的问题个数
 }
 
 func (*UserBasic) TableName() string {
@@ -52,6 +54,27 @@ func GetUserList() ([]UserBasic, error) {
 	}
 
 	return user, nil
+}
+
+// 获取用户排行榜
+func GetUserRankList(page, pageSize int) (*[]UserBasic, int64, error) {
+	var user []UserBasic
+	var count int64
+	// BUG: count统计不正确
+	err := DB.Model(&UserBasic{}).
+		Count(&count).
+		Omit("identity", "password", "phone", "mail").
+		Order("finish_problem_num DESC").
+		Order("submit_problem_num").
+		Order("created_at").
+		Limit(pageSize).
+		Offset((page - 1) * pageSize).
+		Find(&user).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return &user, count, nil
 }
 
 func Login(username string) (*UserBasic, error) {

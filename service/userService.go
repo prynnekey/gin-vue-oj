@@ -2,9 +2,11 @@ package service
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/prynnekey/gin-vue-oj/common/response"
+	"github.com/prynnekey/gin-vue-oj/define"
 	"github.com/prynnekey/gin-vue-oj/models"
 	"github.com/prynnekey/gin-vue-oj/utils"
 	"gorm.io/gorm"
@@ -266,5 +268,37 @@ func Register() gin.HandlerFunc {
 		response.Success(ctx, gin.H{
 			"token": token,
 		}, "注册成功")
+	}
+}
+
+// GetRankList
+// @Summary 用户排行榜
+// @Description 排行榜
+// @Param page query int false "请输入当前页,默认第一页"
+// @Param pageSize query int false "每页多少条数据,默认20条"
+// @Tags 公共方法
+// @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
+// @Router /rank-list [get]
+func GetRankList() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 获取参数
+		page, _ := strconv.Atoi(ctx.DefaultQuery("page", define.PROBLEM_GET_PAGE))
+		pageSize, err := strconv.Atoi(ctx.DefaultQuery("pageSize", define.PROBLEM_GET_PAGE_SIZE))
+		if err != nil {
+			response.Failed(ctx, "参数类型错误")
+		}
+
+		// 查询排行榜
+		ub, count, err := models.GetUserRankList(page, pageSize)
+		if err != nil {
+			response.Failed(ctx, "获取排行榜失败"+err.Error())
+			return
+		}
+
+		// 返回
+		response.Success(ctx, gin.H{
+			"count": count,
+			"list":  ub,
+		}, "查询成功")
 	}
 }

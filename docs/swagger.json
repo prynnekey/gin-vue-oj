@@ -118,6 +118,37 @@
                 }
             }
         },
+        "/rank-list": {
+            "get": {
+                "description": "排行榜",
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "用户排行榜",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "请输入当前页,默认第一页",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页多少条数据,默认20条",
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/register": {
             "post": {
                 "description": "用户注册",
