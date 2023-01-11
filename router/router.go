@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/prynnekey/gin-vue-oj/docs"
+	"github.com/prynnekey/gin-vue-oj/middleware"
 	"github.com/prynnekey/gin-vue-oj/service"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -39,7 +40,7 @@ func Init() *gin.Engine {
 	r.GET("submit-list", service.GetSubmitList())
 
 	// 管理员私有方法
-	admin := r.Group("/admin")
+	admin := r.Group("/admin", middleware.AuthMiddleware())
 	{
 		admin.POST("/problem-add", service.AddProblem())
 	}
