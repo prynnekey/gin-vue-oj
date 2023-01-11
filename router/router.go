@@ -16,10 +16,10 @@ func Init() *gin.Engine {
 
 	// 路由规则
 
+	// 公有方法
 	// 问题
 	r.GET("problem-list", service.GetProblemList())
 	r.GET("problem-detail", service.GetProblemDetail())
-	r.POST("problem-list", service.AddProblem())
 
 	// 用户
 	r.GET("user-detail", service.GetUserDetail())
@@ -31,6 +31,9 @@ func Init() *gin.Engine {
 
 	// 提交记录
 	r.GET("submit-list", service.GetSubmitList())
+
+	// 管理员私有方法
+	r.POST("problem-add", service.AddProblem())
 
 	return r
 }
