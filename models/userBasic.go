@@ -15,6 +15,7 @@ type UserBasic struct {
 	Password         string `json:"password" gorm:"column:password;type:varchar(32)"`             // 密码
 	Phone            string `json:"phone" gorm:"column:phone;type:varchar(20)"`                   // 手机号
 	Mail             string `json:"mail" gorm:"column:mail;type:varchar(100)"`                    // 邮箱
+	IsAdmin          int    `json:"is_admin" gorm:"column:is_admin;type:tinyint(1)"`              // 是否是管理员 1是 0不是 默认0
 	FinishProblemNum int    `json:"finish_problem_num" gorm:"column:finish_problem_num;type:int"` // 完成的问题个数
 	SubmitProblemNum int    `json:"submit_problem_num" gorm:"column:submit_problem_num;type:int"` // 提交的问题个数
 }
@@ -87,6 +88,7 @@ func Login(username string) (*UserBasic, error) {
 	return &u, nil
 }
 
+// 新增用户
 func Register(userBasic *UserBasic) (int64, error) {
 	d := DB.Create(&userBasic)
 	return d.RowsAffected, d.Error
