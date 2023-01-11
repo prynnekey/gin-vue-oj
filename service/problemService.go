@@ -83,6 +83,7 @@ func GetProblemDetail() gin.HandlerFunc {
 // AddProblem
 // @Summary 添加一个问题
 // @Description 添加问题
+// @Param authorization header string false "token"
 // @Param title formData string false "问题标题"
 // @Param content formData string false "问题内容"
 // @Param max_mem formData int false "最大内存"

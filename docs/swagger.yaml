@@ -5,6 +5,10 @@ paths:
     post:
       description: 添加问题
       parameters:
+      - description: token
+        in: header
+        name: authorization
+        type: string
       - description: 问题标题
         in: formData
         name: title

@@ -26,6 +26,12 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
                         "description": "问题标题",
                         "name": "title",
                         "in": "formData"
