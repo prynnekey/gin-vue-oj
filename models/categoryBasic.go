@@ -46,9 +46,22 @@ func AddCategory(name, parentId string) error {
 	return nil
 }
 
-func DeleteCategoryById(id string) (int64, error) {
+// 根据id删除分类 如果该分类下有数据 则不允许删除
+// 返回类型分别是 删除的行数、该分类下是否有数据(有数据true) 和 错误信息
+func DeleteCategoryById(id string) (int64, bool, error) {
+	var count int64
+	err := DB.Model(&ProblemCategory{}).Where("category_id = ?", id).Count(&count).Error
+	if err != nil {
+		return 0, true, err
+	}
+
+	if count > 0 {
+		// 说明该分类下有数据 不能删除
+		return 0, true, nil
+	}
+
 	tx := DB.Where("id = ?", id).Delete(&CategoryBasic{})
-	return tx.RowsAffected, tx.Error
+	return tx.RowsAffected, false, tx.Error
 }
 
 func UpdateCategoryById(id, name, parentId string) (int64, error) {

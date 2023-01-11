@@ -107,13 +107,18 @@ func DeleteCategoryById() gin.HandlerFunc {
 		}
 
 		// 根据id删除
-		i, err := models.DeleteCategoryById(id)
+		i, isDelete, err := models.DeleteCategoryById(id)
 		if err != nil {
 			if err == gorm.ErrRecordNotFound {
 				response.Failed(ctx, "数据不存在")
 				return
 			}
 			response.Failed(ctx, "发生错误:"+err.Error())
+			return
+		}
+
+		if isDelete {
+			response.Failed(ctx, "删除失败:该分类下有子分类")
 			return
 		}
 
