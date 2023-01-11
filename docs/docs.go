@@ -58,6 +58,47 @@ const docTemplate = `{
                     }
                 }
             },
+            "put": {
+                "description": "根据id修改分类",
+                "tags": [
+                    "管理员私有方法"
+                ],
+                "summary": "根据id修改分类",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "要修改的分类id",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "修改后分类名称",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "修改后分类父id",
+                        "name": "parent_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "新增分类",
                 "tags": [

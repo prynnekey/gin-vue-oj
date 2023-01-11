@@ -71,6 +71,33 @@ paths:
       summary: 新增分类
       tags:
       - 管理员私有方法
+    put:
+      description: 根据id修改分类
+      parameters:
+      - description: token
+        in: header
+        name: authorization
+        type: string
+      - description: 要修改的分类id
+        in: query
+        name: id
+        type: integer
+      - description: 修改后分类名称
+        in: query
+        name: name
+        type: string
+      - description: 修改后分类父id
+        in: query
+        name: parent_id
+        type: integer
+      responses:
+        "200":
+          description: '{“code”: "200", "msg":"", "data": ""}'
+          schema:
+            type: string
+      summary: 根据id修改分类
+      tags:
+      - 管理员私有方法
   /admin/problem:
     post:
       description: 添加问题

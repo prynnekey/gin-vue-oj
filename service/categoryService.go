@@ -125,3 +125,57 @@ func DeleteCategoryById() gin.HandlerFunc {
 		response.Success(ctx, nil, "删除成功")
 	}
 }
+
+// UpdateCategoryById
+// @Summary 根据id修改分类
+// @Param authorization header string false "token"
+// @Param id query int false "要修改的分类id"
+// @Param name query string false "修改后分类名称"
+// @Param parent_id query int false "修改后分类父id"
+// @Description 根据id修改分类
+// @Tags 管理员私有方法
+// @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
+// @Router /admin/category [put]
+func UpdateCategoryById() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 获取参数
+		id := ctx.Query("id")
+		name := ctx.Query("name")
+		parentId := ctx.Query("parent_id")
+
+		// 校验参数
+		if id == "" {
+			response.Failed(ctx, "id不能为空")
+			return
+		}
+
+		if name == "" {
+			response.Failed(ctx, "分类名称不能为空")
+			return
+		}
+
+		if parentId == "" {
+			response.Failed(ctx, "父id不能为空")
+			return
+		}
+
+		// 根据id修改
+		i, err := models.UpdateCategoryById(id, name, parentId)
+		if err != nil {
+			if err == gorm.ErrRecordNotFound {
+				response.Failed(ctx, "数据不存在")
+				return
+			}
+			response.Failed(ctx, "发生错误:"+err.Error())
+			return
+		}
+
+		if i == 0 {
+			response.Failed(ctx, "数据不存在")
+			return
+		}
+
+		// 返回结果
+		response.Success(ctx, nil, "修改成功")
+	}
+}

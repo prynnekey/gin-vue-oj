@@ -50,3 +50,11 @@ func DeleteCategoryById(id string) (int64, error) {
 	tx := DB.Where("id = ?", id).Delete(&CategoryBasic{})
 	return tx.RowsAffected, tx.Error
 }
+
+func UpdateCategoryById(id, name, parentId string) (int64, error) {
+	tx := DB.Model(&CategoryBasic{}).Where("id = ?", id).Updates(map[string]interface{}{
+		"name":      name,
+		"parent_id": parentId,
+	})
+	return tx.RowsAffected, tx.Error
+}

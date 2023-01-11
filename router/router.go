@@ -56,7 +56,7 @@ func Init() *gin.Engine {
 			category.GET("/", service.GetCategoryList())
 			category.POST("/", service.AddCategory())
 			category.DELETE("", service.DeleteCategoryById())
-			// category.PUT("", service.UpdateCategoryById())
+			category.PUT("", service.UpdateCategoryById())
 		}
 	}
 
