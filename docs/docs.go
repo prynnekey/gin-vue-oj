@@ -47,6 +47,61 @@ const docTemplate = `{
                 }
             }
         },
+        "/problem-add": {
+            "post": {
+                "description": "添加问题",
+                "tags": [
+                    "管理员私有方法"
+                ],
+                "summary": "添加一个问题",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "问题标题",
+                        "name": "title",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "问题内容",
+                        "name": "content",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "最大内存",
+                        "name": "max_mem",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "最大运行时间",
+                        "name": "max_runtime",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "array",
+                        "description": "分类id",
+                        "name": "category_ids",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "array",
+                        "description": "测试用例",
+                        "name": "test_cases",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/problem-detail": {
             "get": {
                 "description": "获取问题详细信息",
@@ -105,21 +160,6 @@ const docTemplate = `{
                         "in": "query"
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "添加问题",
-                "tags": [
-                    "公共方法"
-                ],
-                "summary": "添加一个问题",
                 "responses": {
                     "200": {
                         "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
