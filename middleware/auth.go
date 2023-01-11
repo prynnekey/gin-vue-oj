@@ -21,7 +21,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		// 判断是否是管理员
-		if uc.IsAdmin != 1 {
+		if uc == nil || uc.IsAdmin != 1 {
 			// 不是 终止往下走
 			response.Failed(ctx, "权限不足")
 			ctx.Abort()
