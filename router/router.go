@@ -54,7 +54,7 @@ func Init() *gin.Engine {
 		{
 			// 获取分类列表
 			category.GET("/", service.GetCategoryList())
-			// category.POST("", service.AddCategory())
+			category.POST("/", service.AddCategory())
 			// category.DELETE("", service.DeleteCategoryById())
 			// category.PUT("", service.UpdateCategoryById())
 		}

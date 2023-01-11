@@ -29,6 +29,29 @@ paths:
       summary: 获取分类列表
       tags:
       - 管理员私有方法
+    post:
+      description: 新增分类
+      parameters:
+      - description: token
+        in: header
+        name: authorization
+        type: string
+      - description: 分类名称 例如:数组
+        in: formData
+        name: name
+        type: string
+      - description: 父级分类id 默认:0(顶级id)
+        in: formData
+        name: parent_id
+        type: integer
+      responses:
+        "200":
+          description: '{“code”: "200", "msg":"", "data": ""}'
+          schema:
+            type: string
+      summary: 新增分类
+      tags:
+      - 管理员私有方法
   /admin/problem:
     post:
       description: 添加问题

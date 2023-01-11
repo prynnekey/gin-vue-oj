@@ -50,24 +50,33 @@ func GetCategoryList() gin.HandlerFunc {
 
 // AddCategory
 // @Summary 新增分类
+// @Param authorization header string false "token"
+// @Param name formData string false "分类名称 例如:数组"
+// @Param parent_id formData int false "父级分类id 默认:0(顶级id)"
 // @Description 新增分类
 // @Tags 管理员私有方法
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
-// @Router /category/list [get]
-/* func AddCategory() gin.HandlerFunc {
+// @Router /admin/category [post]
+func AddCategory() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取参数
 		name := ctx.PostForm("name")
-		desc := ctx.PostForm("desc")
+		parentId := ctx.DefaultPostForm("parent_id", "0")
 
-		// 查询数据库
-		err := models.AddCategory(name, desc)
+		// 参数校验
+		if name == "" {
+			response.Failed(ctx, "分类名称不能为空")
+			return
+		}
+
+		// 添加到数据库
+		err := models.AddCategory(name, parentId)
 		if err != nil {
-			response.Failed(ctx, "添加失败")
+			response.Failed(ctx, "添加失败:"+err.Error())
 			return
 		}
 
 		// 返回信息
 		response.Success(ctx, nil, "添加成功")
 	}
-} */
+}

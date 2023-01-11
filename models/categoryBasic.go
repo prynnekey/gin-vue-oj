@@ -1,6 +1,9 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"github.com/prynnekey/gin-vue-oj/utils"
+	"gorm.io/gorm"
+)
 
 type CategoryBasic struct {
 	gorm.Model
@@ -27,4 +30,18 @@ func GetCategory(page, pageSize int, keyWord string) (*[]CategoryBasic, int64, e
 	}
 
 	return categoryList, count, nil
+}
+
+func AddCategory(name, parentId string) error {
+	err := DB.Create(&CategoryBasic{
+		Identity: utils.GenerateUUID(),
+		Name:     name,
+		ParentId: parentId,
+	}).Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
