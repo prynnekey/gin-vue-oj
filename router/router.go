@@ -33,7 +33,10 @@ func Init() *gin.Engine {
 	r.GET("submit-list", service.GetSubmitList())
 
 	// 管理员私有方法
-	r.POST("problem-add", service.AddProblem())
+	admin := r.Group("/admin")
+	{
+		admin.POST("/problem-add", service.AddProblem())
+	}
 
 	return r
 }

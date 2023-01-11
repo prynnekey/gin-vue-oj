@@ -91,7 +91,7 @@ func GetProblemDetail() gin.HandlerFunc {
 // @Param test_cases formData array false "测试用例"
 // @Tags 管理员私有方法
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
-// @Router /problem-add [post]
+// @Router /admin/problem-add [post]
 func AddProblem() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取参数

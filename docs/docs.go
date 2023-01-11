@@ -16,38 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/login": {
-            "post": {
-                "description": "用户登录",
-                "tags": [
-                    "公共方法"
-                ],
-                "summary": "用户登录",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "用户名",
-                        "name": "username",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "密码",
-                        "name": "password",
-                        "in": "formData"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/problem-add": {
+        "/admin/problem-add": {
             "post": {
                 "description": "添加问题",
                 "tags": [
@@ -89,6 +58,37 @@ const docTemplate = `{
                         "type": "array",
                         "description": "测试用例",
                         "name": "test_cases",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "用户登录",
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "用户登录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "username",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "密码",
+                        "name": "password",
                         "in": "formData"
                     }
                 ],
