@@ -77,6 +77,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin/user-list": {
+            "get": {
+                "description": "获取用户列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "管理员私有方法"
+                ],
+                "summary": "获取所有用户",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/problem/detail": {
             "get": {
                 "description": "获取问题详细信息",
@@ -176,7 +208,112 @@ const docTemplate = `{
                 }
             }
         },
-        "/register": {
+        "/submit-list": {
+            "get": {
+                "description": "获取问题列表",
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "获取提交记录列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "请输入当前页,默认第一页",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页多少条数据,默认20条",
+                        "name": "pageSize",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "问题的唯一标识",
+                        "name": "problem_identity",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户的唯一标识",
+                        "name": "user_identity",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "提交的状态【-1-待判断，1-答案正确，2-答案错误，3-运行超时，4-运行超内存】",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/detail": {
+            "get": {
+                "description": "获取用户详细信息",
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "获取用户详细信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户的唯一标识",
+                        "name": "identity",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "description": "用户登录",
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "用户登录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "username",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "密码",
+                        "name": "password",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/register": {
             "post": {
                 "description": "用户注册",
                 "tags": [
@@ -236,7 +373,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/send-code": {
+        "/user/send-code": {
             "post": {
                 "description": "发送邮箱验证码",
                 "tags": [
@@ -248,134 +385,6 @@ const docTemplate = `{
                         "type": "string",
                         "description": "用户邮箱",
                         "name": "email",
-                        "in": "formData"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/submit-list": {
-            "get": {
-                "description": "获取问题列表",
-                "tags": [
-                    "公共方法"
-                ],
-                "summary": "获取提交记录列表",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "请输入当前页,默认第一页",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页多少条数据,默认20条",
-                        "name": "pageSize",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "问题的唯一标识",
-                        "name": "problem_identity",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "用户的唯一标识",
-                        "name": "user_identity",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "提交的状态【-1-待判断，1-答案正确，2-答案错误，3-运行超时，4-运行超内存】",
-                        "name": "status",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/user-list": {
-            "get": {
-                "description": "获取用户列表",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公共方法"
-                ],
-                "summary": "获取所有用户",
-                "responses": {
-                    "200": {
-                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/detail": {
-            "get": {
-                "description": "获取用户详细信息",
-                "tags": [
-                    "公共方法"
-                ],
-                "summary": "获取用户详细信息",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "用户的唯一标识",
-                        "name": "identity",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/login": {
-            "post": {
-                "description": "用户登录",
-                "tags": [
-                    "公共方法"
-                ],
-                "summary": "用户登录",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "用户名",
-                        "name": "username",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "密码",
-                        "name": "password",
                         "in": "formData"
                     }
                 ],

@@ -29,10 +29,10 @@ func Init() *gin.Engine {
 	user := r.Group("/user")
 	{
 		user.GET("/detail", service.GetUserDetail())
-		r.POST("/login", service.Login())
+		user.POST("/login", service.Login())
+		user.POST("/register", service.Register())
+		user.POST("/send-code", service.SendCode())
 	}
-	r.POST("/send-code", service.SendCode())
-	r.POST("/register", service.Register())
 	// 排行榜
 	r.GET("/rank-list", service.GetRankList())
 
@@ -42,7 +42,11 @@ func Init() *gin.Engine {
 	// 管理员私有方法
 	admin := r.Group("/admin", middleware.AuthMiddleware())
 	{
+		// 新增问题
 		admin.POST("/problem-add", service.AddProblem())
+
+		// 查看所有用户
+		admin.GET("/user-list", service.GetUserList())
 	}
 
 	return r

@@ -50,11 +50,12 @@ func GetUserDetail() gin.HandlerFunc {
 // @Summary 获取所有用户
 // @Schemes
 // @Description 获取用户列表
-// @Tags 公共方法
+// @Tags 管理员私有方法
+// @Param authorization header string true "token"
 // @Accept json
 // @Produce json
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
-// @Router /user-list [get]
+// @Router /admin/user-list [get]
 func GetUserList() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		user, err := models.GetUserList()
@@ -129,7 +130,7 @@ func Login() gin.HandlerFunc {
 // @Tags 公共方法
 // @Param email formData string false "用户邮箱"
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
-// @Router /send-code [post]
+// @Router /user/send-code [post]
 func SendCode() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取邮箱
@@ -173,7 +174,7 @@ func SendCode() gin.HandlerFunc {
 // @Param mail formData string true "邮箱"
 // @Param code formData string true "验证码"
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
-// @Router /register [post]
+// @Router /user/register [post]
 func Register() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取参数
