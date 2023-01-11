@@ -16,7 +16,50 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/admin/problem-add": {
+        "/admin/category": {
+            "get": {
+                "description": "获取分类列表",
+                "tags": [
+                    "管理员私有方法"
+                ],
+                "summary": "获取分类列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "请输入当前页,默认第一页",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页多少条数据,默认20条",
+                        "name": "pageSize",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "关键字",
+                        "name": "keyWord",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/problem": {
             "post": {
                 "description": "添加问题",
                 "tags": [
@@ -97,43 +140,6 @@ const docTemplate = `{
                         "name": "authorization",
                         "in": "header",
                         "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/category/list": {
-            "get": {
-                "description": "获取分类列表",
-                "tags": [
-                    "公共方法"
-                ],
-                "summary": "获取分类列表",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "请输入当前页,默认第一页",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页多少条数据,默认20条",
-                        "name": "pageSize",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "关键字",
-                        "name": "keyWord",
-                        "in": "query"
                     }
                 ],
                 "responses": {

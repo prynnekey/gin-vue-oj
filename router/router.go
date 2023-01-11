@@ -34,13 +34,6 @@ func Init() *gin.Engine {
 		user.POST("/send-code", service.SendCode())
 	}
 
-	// 分类
-	category := r.Group("/category")
-	{
-		// 获取分类列表
-		category.GET("/list", service.GetCategoryList())
-	}
-
 	// 排行榜
 	r.GET("/rank-list", service.GetRankList())
 
@@ -51,10 +44,20 @@ func Init() *gin.Engine {
 	admin := r.Group("/admin", middleware.AuthMiddleware())
 	{
 		// 新增问题
-		admin.POST("/problem-add", service.AddProblem())
+		admin.POST("/problem", service.AddProblem())
 
 		// 查看所有用户
 		admin.GET("/user-list", service.GetUserList())
+
+		// 分类
+		category := admin.Group("/category")
+		{
+			// 获取分类列表
+			category.GET("/", service.GetCategoryList())
+			// category.POST("", service.AddCategory())
+			// category.DELETE("", service.DeleteCategoryById())
+			// category.PUT("", service.UpdateCategoryById())
+		}
 	}
 
 	return r
