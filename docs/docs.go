@@ -102,7 +102,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/problem-detail": {
+        "/problem/detail": {
             "get": {
                 "description": "获取问题详细信息",
                 "tags": [
@@ -127,7 +127,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/problem-list": {
+        "/problem/list": {
             "get": {
                 "description": "获取问题列表",
                 "tags": [

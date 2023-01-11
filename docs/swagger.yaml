@@ -57,7 +57,7 @@ paths:
       summary: 用户登录
       tags:
       - 公共方法
-  /problem-detail:
+  /problem/detail:
     get:
       description: 获取问题详细信息
       parameters:
@@ -73,7 +73,7 @@ paths:
       summary: 问题详情
       tags:
       - 公共方法
-  /problem-list:
+  /problem/list:
     get:
       description: 获取问题列表
       parameters:

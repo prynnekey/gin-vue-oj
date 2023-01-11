@@ -18,8 +18,11 @@ func Init() *gin.Engine {
 
 	// 公有方法
 	// 问题
-	r.GET("problem-list", service.GetProblemList())
-	r.GET("problem-detail", service.GetProblemDetail())
+	problem := r.Group("/problem")
+	{
+		problem.GET("/list", service.GetProblemList())
+		problem.GET("/detail", service.GetProblemDetail())
+	}
 
 	// 用户
 	r.GET("user-detail", service.GetUserDetail())

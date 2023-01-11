@@ -22,7 +22,7 @@ import (
 // @Description 获取问题列表
 // @Tags 公共方法
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
-// @Router /problem-list [get]
+// @Router /problem/list [get]
 func GetProblemList() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		page, _ := strconv.Atoi(ctx.DefaultQuery("page", define.PROBLEM_GET_PAGE))
@@ -60,7 +60,7 @@ func GetProblemList() gin.HandlerFunc {
 // @Description 获取问题详细信息
 // @Tags 公共方法
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
-// @Router /problem-detail [get]
+// @Router /problem/detail [get]
 func GetProblemDetail() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取参数
