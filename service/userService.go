@@ -18,7 +18,7 @@ import (
 // @Tags 公共方法
 // @Param identity query string false "用户的唯一标识"
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
-// @Router /user-detail [get]
+// @Router /user/detail [get]
 func GetUserDetail() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取参数

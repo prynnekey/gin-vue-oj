@@ -335,7 +335,30 @@ const docTemplate = `{
                 }
             }
         },
-        "/user-detail": {
+        "/user-list": {
+            "get": {
+                "description": "获取用户列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "获取所有用户",
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/detail": {
             "get": {
                 "description": "获取用户详细信息",
                 "tags": [
@@ -350,29 +373,6 @@ const docTemplate = `{
                         "in": "query"
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/user-list": {
-            "get": {
-                "description": "获取用户列表",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公共方法"
-                ],
-                "summary": "获取所有用户",
                 "responses": {
                     "200": {
                         "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",

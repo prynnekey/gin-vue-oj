@@ -210,22 +210,6 @@ paths:
       summary: 获取提交记录列表
       tags:
       - 公共方法
-  /user-detail:
-    get:
-      description: 获取用户详细信息
-      parameters:
-      - description: 用户的唯一标识
-        in: query
-        name: identity
-        type: string
-      responses:
-        "200":
-          description: '{“code”: "200", "msg":"", "data": ""}'
-          schema:
-            type: string
-      summary: 获取用户详细信息
-      tags:
-      - 公共方法
   /user-list:
     get:
       consumes:
@@ -239,6 +223,22 @@ paths:
           schema:
             type: string
       summary: 获取所有用户
+      tags:
+      - 公共方法
+  /user/detail:
+    get:
+      description: 获取用户详细信息
+      parameters:
+      - description: 用户的唯一标识
+        in: query
+        name: identity
+        type: string
+      responses:
+        "200":
+          description: '{“code”: "200", "msg":"", "data": ""}'
+          schema:
+            type: string
+      summary: 获取用户详细信息
       tags:
       - 公共方法
 swagger: "2.0"
