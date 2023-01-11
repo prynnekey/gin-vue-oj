@@ -84,8 +84,13 @@ func Login() gin.HandlerFunc {
 		password := ctx.PostForm("password")
 
 		// 校验输入格式
-		if username == "" || password == "" {
-			response.Failed(ctx, "用户名或密码不能为空")
+		if username == "" {
+			response.Failed(ctx, "用户名不能为空")
+			return
+		}
+
+		if password == "" {
+			response.Failed(ctx, "密码不能为空")
 			return
 		}
 
