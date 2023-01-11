@@ -45,3 +45,8 @@ func AddCategory(name, parentId string) error {
 
 	return nil
 }
+
+func DeleteCategoryById(id string) (int64, error) {
+	tx := DB.Where("id = ?", id).Delete(&CategoryBasic{})
+	return tx.RowsAffected, tx.Error
+}

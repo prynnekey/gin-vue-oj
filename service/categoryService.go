@@ -3,11 +3,13 @@ package service
 import (
 	"log"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/prynnekey/gin-vue-oj/common/response"
 	"github.com/prynnekey/gin-vue-oj/define"
 	"github.com/prynnekey/gin-vue-oj/models"
+	"gorm.io/gorm"
 )
 
 // GetCategoryList
@@ -72,11 +74,54 @@ func AddCategory() gin.HandlerFunc {
 		// 添加到数据库
 		err := models.AddCategory(name, parentId)
 		if err != nil {
+			if s := strings.Split(err.Error(), " "); s[3] == "Duplicate" {
+				response.Failed(ctx, "添加失败:'"+name+"'已存在")
+				return
+			}
 			response.Failed(ctx, "添加失败:"+err.Error())
 			return
 		}
 
 		// 返回信息
 		response.Success(ctx, nil, "添加成功")
+	}
+}
+
+// DeleteCategoryById
+// @Summary 根据id删除分类
+// @Param authorization header string false "token"
+// @Param id query int false "要删除的分类id"
+// @Description 根据id删除分类
+// @Tags 管理员私有方法
+// @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
+// @Router /admin/category [delete]
+func DeleteCategoryById() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 获取参数
+		id := ctx.Query("id")
+
+		// 校验参数
+		if id == "" {
+			response.Failed(ctx, "id不能为空")
+			return
+		}
+
+		// 根据id删除
+		i, err := models.DeleteCategoryById(id)
+		if err != nil {
+			if err == gorm.ErrRecordNotFound {
+				response.Failed(ctx, "数据不存在")
+				return
+			}
+			response.Failed(ctx, "发生错误:"+err.Error())
+			return
+		}
+
+		if i == 0 {
+			response.Failed(ctx, "数据不存在")
+			return
+		}
+
+		response.Success(ctx, nil, "删除成功")
 	}
 }

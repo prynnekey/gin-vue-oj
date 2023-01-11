@@ -80,6 +80,35 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "根据id删除分类",
+                "tags": [
+                    "管理员私有方法"
+                ],
+                "summary": "根据id删除分类",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "要删除的分类id",
+                        "name": "id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
             }
         },
         "/admin/problem": {

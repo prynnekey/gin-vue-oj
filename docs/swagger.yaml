@@ -2,6 +2,25 @@ info:
   contact: {}
 paths:
   /admin/category:
+    delete:
+      description: 根据id删除分类
+      parameters:
+      - description: token
+        in: header
+        name: authorization
+        type: string
+      - description: 要删除的分类id
+        in: query
+        name: id
+        type: integer
+      responses:
+        "200":
+          description: '{“code”: "200", "msg":"", "data": ""}'
+          schema:
+            type: string
+      summary: 根据id删除分类
+      tags:
+      - 管理员私有方法
     get:
       description: 获取分类列表
       parameters:
