@@ -111,7 +111,7 @@ func Login() gin.HandlerFunc {
 		}
 
 		// 对比成功 生成token
-		tokenString, err := utils.GenerateToken(ub.Identity, ub.Username)
+		tokenString, err := utils.GenerateToken(ub.Identity, ub.Username, ub.IsAdmin)
 		if err != nil {
 			response.Failed(ctx, "生成token失败:"+err.Error())
 			return
@@ -260,7 +260,7 @@ func Register() gin.HandlerFunc {
 		}
 
 		// 注册成功 生成token 使得用户直接登录
-		token, err := utils.GenerateToken(identity, username)
+		token, err := utils.GenerateToken(identity, username, user.IsAdmin)
 		if err != nil {
 			response.Failed(ctx, "生成token失败，请重新登陆:"+err.Error())
 			return
