@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"log"
 	"strconv"
 
@@ -8,6 +9,7 @@ import (
 	"github.com/prynnekey/gin-vue-oj/common/response"
 	"github.com/prynnekey/gin-vue-oj/define"
 	"github.com/prynnekey/gin-vue-oj/models"
+	"github.com/prynnekey/gin-vue-oj/utils"
 	"gorm.io/gorm"
 )
 
@@ -81,13 +83,81 @@ func GetProblemDetail() gin.HandlerFunc {
 // AddProblem
 // @Summary 添加一个问题
 // @Description 添加问题
-// @Tags 公共方法
+// @Param title formData string false "问题标题"
+// @Param content formData string false "问题内容"
+// @Param max_mem formData int false "最大内存"
+// @Param max_runtime formData int false "最大运行时间"
+// @Param category_ids formData array false "分类id"
+// @Param test_cases formData array false "测试用例"
+// @Tags 管理员私有方法
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
-// @Router /problem-list [post]
+// @Router /problem-add [post]
 func AddProblem() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		var problem models.ProblemBasic
-		ctx.ShouldBindJSON(&problem)
+		// 获取参数
+		title := ctx.PostForm("title")
+		content := ctx.PostForm("content")
+		maxMem, _ := strconv.Atoi(ctx.PostForm("max_mem"))
+		maxRuntime, err := strconv.Atoi(ctx.PostForm("max_runtime"))
+		categoryIds := ctx.PostFormArray("category_ids")
+		testCases := ctx.PostFormArray("test_cases")
+
+		if err != nil {
+			response.Failed(ctx, "参数格式不正确")
+			return
+		}
+
+		// 参数校验
+		if title == "" || content == "" || maxMem == 0 || maxRuntime == 0 || len(categoryIds) == 0 || len(testCases) == 0 {
+			response.Failed(ctx, "参数错误")
+			return
+		}
+
+		// 生成唯一问题id
+		identity := utils.GenerateUUID()
+
+		// 创建问题分类
+		var problemCategories []*models.ProblemCategory
+
+		// 封装数据
+		for _, id := range categoryIds {
+			problemCategory := &models.ProblemCategory{
+				ProblemId:  identity,
+				CategoryId: id,
+			}
+			problemCategories = append(problemCategories, problemCategory)
+		}
+
+		// 创建测试用例
+		var testCaseBasics []*models.TestCase
+
+		for _, testCase := range testCases {
+			// {"input": "1 2", "output": "3"}
+			var testCaseMap map[string]string
+			err := json.Unmarshal([]byte(testCase), &testCaseMap)
+			if err != nil {
+				response.Failed(ctx, "测试用例格式不正确")
+				return
+			}
+			testCaseBasic := &models.TestCase{
+				Identity:        utils.GenerateUUID(),
+				ProblemIdentity: identity,
+				Input:           testCaseMap["input"],
+				Output:          testCaseMap["output"],
+			}
+			testCaseBasics = append(testCaseBasics, testCaseBasic)
+		}
+
+		// 创建问题
+		problem := models.ProblemBasic{
+			Identity:          identity,
+			Title:             title,
+			Content:           content,
+			MaxMem:            maxMem,
+			MaxRuntime:        maxRuntime,
+			ProblemCategories: problemCategories,
+			TestCase:          testCaseBasics,
+		}
 
 		i, err := models.AddProblem(&problem)
 		if err != nil {
