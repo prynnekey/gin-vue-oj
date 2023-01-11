@@ -12,3 +12,19 @@ type CategoryBasic struct {
 func (*CategoryBasic) TableName() string {
 	return "category_basic"
 }
+
+func GetCategory(page, pageSize int, keyWord string) (*[]CategoryBasic, int64, error) {
+	var categoryList *[]CategoryBasic
+	var count int64
+	err := DB.Model(&CategoryBasic{}).
+		Count(&count).
+		Where("name LIKE ?", "%"+keyWord+"%").
+		Offset((page - 1) * pageSize).
+		Limit(pageSize).
+		Find(&categoryList).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return categoryList, count, nil
+}

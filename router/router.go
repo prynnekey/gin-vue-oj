@@ -33,6 +33,14 @@ func Init() *gin.Engine {
 		user.POST("/register", service.Register())
 		user.POST("/send-code", service.SendCode())
 	}
+
+	// 分类
+	category := r.Group("/category")
+	{
+		// 获取分类列表
+		category.GET("/list", service.GetCategoryList())
+	}
+
 	// 排行榜
 	r.GET("/rank-list", service.GetRankList())
 
