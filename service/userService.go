@@ -75,7 +75,7 @@ func GetUserList() gin.HandlerFunc {
 // @Param username formData string false "用户名"
 // @Param password formData string false "密码"
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
-// @Router /login [post]
+// @Router /user/login [post]
 func Login() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取登录的用户名和密码

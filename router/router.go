@@ -29,8 +29,8 @@ func Init() *gin.Engine {
 	user := r.Group("/user")
 	{
 		user.GET("/detail", service.GetUserDetail())
+		r.POST("/login", service.Login())
 	}
-	r.POST("login", service.Login())
 	r.POST("/send-code", service.SendCode())
 	r.POST("/register", service.Register())
 	// 排行榜
