@@ -123,6 +123,9 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
+		// 将token存入redis 默认7天 当有任何其他操作时 重置Redis时间
+		models.SaveTokenWithRedis(username, tokenString)
+
 		response.Success(ctx, gin.H{
 			"token": tokenString,
 		}, "登录成功")

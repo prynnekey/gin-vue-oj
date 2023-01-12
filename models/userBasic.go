@@ -2,7 +2,6 @@ package models
 
 import (
 	"context"
-	"time"
 
 	"github.com/prynnekey/gin-vue-oj/define"
 	"gorm.io/gorm"
@@ -101,7 +100,7 @@ func SaveCodeWithRedis(mail, code string) error {
 	// key   user:email:mail
 	key := define.REDIS_SAVE_EMAIL_CODE + mail
 	// 过期时间5分钟
-	_, err := REDIS.SetNX(ctx, key, code, 5*time.Minute).Result()
+	_, err := REDIS.Set(ctx, key, code, define.REDIS_SAVE_EMAIL_CODE_EXPIRY).Result()
 	if err != nil {
 		return err
 	}
@@ -120,4 +119,30 @@ func GetCodeWithRedis(mail string) (string, error) {
 	}
 
 	return code, nil
+}
+
+// 将token存入Redis中
+func SaveTokenWithRedis(username, token string) error {
+	// key   user:email:mail
+	key := define.REDIS_SAVE_USER_TOKEN + username
+	// 过期时间5分钟
+	_, err := REDIS.Set(ctx, key, token, define.REDIS_SAVE_USER_TOKEN_EXPIRY).Result()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// 获取Redis中的验证码
+func GetTokenWithRedis(username string) (string, error) {
+	// key   user:email:mail
+	key := define.REDIS_SAVE_USER_TOKEN + username
+	// 过期时间5分钟
+	tokenString, err := REDIS.Get(ctx, key).Result()
+	if err != nil {
+		return "", err
+	}
+
+	return tokenString, nil
 }

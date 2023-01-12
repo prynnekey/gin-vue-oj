@@ -3,6 +3,7 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/prynnekey/gin-vue-oj/common/response"
+	"github.com/prynnekey/gin-vue-oj/models"
 	"github.com/prynnekey/gin-vue-oj/utils"
 )
 
@@ -16,6 +17,20 @@ func AuthMiddleware() gin.HandlerFunc {
 		uc, err := utils.ParseToken(token)
 		if err != nil {
 			response.Failed(ctx, "没有登录")
+			ctx.Abort()
+			return
+		}
+
+		// 判断token是否过期
+		redisToken, err := models.GetTokenWithRedis(uc.Username)
+		if err != nil {
+			response.Failed(ctx, "登录已过期,请重新登录")
+			ctx.Abort()
+			return
+		}
+
+		if redisToken != token {
+			response.Failed(ctx, "token非法,请重新登陆")
 			ctx.Abort()
 			return
 		}
