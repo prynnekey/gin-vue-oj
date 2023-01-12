@@ -274,6 +274,10 @@ func Register() gin.HandlerFunc {
 			response.Failed(ctx, "生成token失败，请重新登陆:"+err.Error())
 			return
 		}
+
+		// 将token存入redis
+		models.SaveTokenWithRedis(username, token)
+
 		response.Success(ctx, gin.H{
 			"token": token,
 		}, "注册成功")
