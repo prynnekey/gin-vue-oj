@@ -164,6 +164,22 @@ func UpdateCategoryById() gin.HandlerFunc {
 			return
 		}
 
+		// 父id不能和id相等
+		if parentId == id {
+			response.Failed(ctx, "父id不能和id相等")
+			return
+		}
+
+		// 判断父id是否存在
+		if parentId != "0" {
+			var count int64
+			models.DB.Model(models.CategoryBasic{}).Where("id = ?", parentId).Count(&count)
+			if count == 0 {
+				response.Failed(ctx, "父id不存在")
+				return
+			}
+		}
+
 		// 根据id修改
 		i, err := models.UpdateCategoryById(id, name, parentId)
 		if err != nil {
@@ -176,7 +192,7 @@ func UpdateCategoryById() gin.HandlerFunc {
 		}
 
 		if i == 0 {
-			response.Failed(ctx, "数据不存在")
+			response.Failed(ctx, "id不存在")
 			return
 		}
 
