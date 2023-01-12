@@ -138,6 +138,52 @@ paths:
       summary: 添加一个问题
       tags:
       - 管理员私有方法
+    put:
+      description: 修改问题
+      parameters:
+      - description: token
+        in: header
+        name: authorization
+        type: string
+      - description: 问题的唯一标识
+        in: formData
+        name: identity
+        type: string
+      - description: 问题标题
+        in: formData
+        name: title
+        type: string
+      - description: 问题内容
+        in: formData
+        name: content
+        type: string
+      - description: 最大内存
+        in: formData
+        name: max_mem
+        type: integer
+      - description: 最大运行时间
+        in: formData
+        name: max_runtime
+        type: integer
+      - description: 分类id
+        in: formData
+        name: category_id
+        type: integer
+      - collectionFormat: multi
+        description: 测试用例
+        in: formData
+        items:
+          type: string
+        name: test_cases
+        type: array
+      responses:
+        "200":
+          description: '{“code”: "200", "msg":"", "data": ""}'
+          schema:
+            type: string
+      summary: 据id修改问题
+      tags:
+      - 管理员私有方法
   /admin/user-list:
     get:
       consumes:

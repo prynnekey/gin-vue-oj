@@ -45,6 +45,8 @@ func Init() *gin.Engine {
 	{
 		// 新增问题
 		admin.POST("/problem", service.AddProblem())
+		// 问题修改
+		admin.PUT("/problem", service.UpdateProblemByIdentity())
 
 		// 查看所有用户
 		admin.GET("/user-list", service.GetUserList())

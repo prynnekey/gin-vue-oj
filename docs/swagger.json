@@ -153,6 +153,75 @@
             }
         },
         "/admin/problem": {
+            "put": {
+                "description": "修改问题",
+                "tags": [
+                    "管理员私有方法"
+                ],
+                "summary": "据id修改问题",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "问题的唯一标识",
+                        "name": "identity",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "问题标题",
+                        "name": "title",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "问题内容",
+                        "name": "content",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "最大内存",
+                        "name": "max_mem",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "最大运行时间",
+                        "name": "max_runtime",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "分类id",
+                        "name": "category_id",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "测试用例",
+                        "name": "test_cases",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "添加问题",
                 "tags": [
