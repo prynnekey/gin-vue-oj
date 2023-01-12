@@ -126,8 +126,11 @@ paths:
         in: formData
         name: category_ids
         type: array
-      - description: 测试用例
+      - collectionFormat: multi
+        description: 测试用例
         in: formData
+        items:
+          type: string
         name: test_cases
         type: array
       responses:

@@ -279,6 +279,10 @@ const docTemplate = `{
                     },
                     {
                         "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
                         "description": "测试用例",
                         "name": "test_cases",
                         "in": "formData"

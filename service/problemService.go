@@ -89,7 +89,7 @@ func GetProblemDetail() gin.HandlerFunc {
 // @Param max_mem formData int false "最大内存"
 // @Param max_runtime formData int false "最大运行时间"
 // @Param category_ids formData array false "分类id"
-// @Param test_cases formData array false "测试用例"
+// @Param test_cases formData []string false "测试用例" collectionFormat(multi)
 // @Tags 管理员私有方法
 // @Success 200 {string} json "{“code”: "200", "msg":"", "data": ""}"
 // @Router /admin/problem [post]
@@ -140,6 +140,18 @@ func AddProblem() gin.HandlerFunc {
 				response.Failed(ctx, "测试用例格式不正确")
 				return
 			}
+
+			// testcCse参数校验
+			if _, ok := testCaseMap["input"]; !ok {
+				response.Failed(ctx, "测试用例[input]格式错误")
+				return
+			}
+
+			if _, ok := testCaseMap["output"]; !ok {
+				response.Failed(ctx, "测试用例[output]格式错误")
+				return
+			}
+
 			testCaseBasic := &models.TestCase{
 				Identity:        utils.GenerateUUID(),
 				ProblemIdentity: identity,
