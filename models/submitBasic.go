@@ -10,7 +10,7 @@ type SubmitBasic struct {
 	UserIdentity    string        `json:"user_identity" gorm:"column:user_identity;type:varchar(36)"`           // 用户的唯一表四
 	UserBasic       *UserBasic    `json:"user_basic" gorm:"foreignKey:identity;references:user_identity"`       // 关联用户基础表
 	CodePath        string        `json:"code_path" gorm:"column:code_path;type:varchar(255)"`                  // 代码存放路径
-	Status          int           `json:"status" gorm:"column:status;type:tinyint(1)"`                          // 状态码 【-1-待判断,1-答案正确,2-答案错误,3-运行超时,4-运行超内存】
+	Status          int           `json:"status" gorm:"column:status;type:tinyint(1)"`                          // 状态码 【-1-待判断,1-答案正确,2-答案错误,3-运行超时,4-运行超内存，5-编译错误】
 }
 
 func (*SubmitBasic) TableName() string {
