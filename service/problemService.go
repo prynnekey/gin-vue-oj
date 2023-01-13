@@ -169,7 +169,7 @@ func AddProblem() gin.HandlerFunc {
 			MaxMem:            maxMem,
 			MaxRuntime:        maxRuntime,
 			ProblemCategories: problemCategories,
-			TestCase:          testCaseBasics,
+			TestCases:         testCaseBasics,
 		}
 
 		i, err := models.AddProblem(&problem)
