@@ -47,3 +47,39 @@ func AuthMiddleware() gin.HandlerFunc {
 		ctx.Next()
 	}
 }
+
+// 验证用户是否登录
+func AuthUserCheck() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 从header中获取token
+		token := ctx.GetHeader("Authorization")
+
+		// 解析token
+		uc, err := utils.ParseToken(token)
+		if err != nil {
+			response.Failed(ctx, "没有登录")
+			ctx.Abort()
+			return
+		}
+
+		// 判断token是否过期
+		redisToken, err := models.GetTokenWithRedis(uc.Username)
+		if err != nil {
+			response.Failed(ctx, "登录已过期,请重新登录")
+			ctx.Abort()
+			return
+		}
+
+		if redisToken != token {
+			response.Failed(ctx, "token非法,请重新登陆")
+			ctx.Abort()
+			return
+		}
+
+		// 将用户id存储起来
+		ctx.Set("user", uc)
+
+		// 是 放行
+		ctx.Next()
+	}
+}
