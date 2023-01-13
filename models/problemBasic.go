@@ -7,13 +7,13 @@ import (
 type ProblemBasic struct {
 	gorm.Model
 	// NOTE: 不明白为什么下面的gorm这么写
-	Identity          string             `json:"identity" gorm:"column:identity;type:varchar(36)"`                 // 问题的唯一标识
-	ProblemCategories []*ProblemCategory `json:"problem_categories" gorm:"foreignKey:problem_id;references:id"`    // 关联问题的分类表
-	Title             string             `json:"title" gorm:"column:title;type:varchar(255)"`                      // 问题的标题
-	Content           string             `json:"content" gorm:"column:content;type:text"`                          // 问题的正文描述
-	MaxMem            int                `json:"max_mem" gorm:"column:max_mem;type:int"`                           // 最大运行内存
-	MaxRuntime        int                `json:"max_runtime" gorm:"column:max_runtime;type:int"`                   // 最大运行时间
-	TestCase          []*TestCase        `json:"test_case" gorm:"foreignKey:problem_identity;references:identity"` // 测试用例
+	Identity          string             `json:"identity" gorm:"column:identity;type:varchar(36)"`                  // 问题的唯一标识
+	ProblemCategories []*ProblemCategory `json:"problem_categories" gorm:"foreignKey:problem_id;references:id"`     // 关联问题的分类表
+	Title             string             `json:"title" gorm:"column:title;type:varchar(255)"`                       // 问题的标题
+	Content           string             `json:"content" gorm:"column:content;type:text"`                           // 问题的正文描述
+	MaxMem            int                `json:"max_mem" gorm:"column:max_mem;type:int"`                            // 最大运行内存 单位kb
+	MaxRuntime        int                `json:"max_runtime" gorm:"column:max_runtime;type:int"`                    // 最大运行时间 单位ms
+	TestCases         []*TestCase        `json:"test_cases" gorm:"foreignKey:problem_identity;references:identity"` // 测试用例
 }
 
 func (*ProblemBasic) TableName() string {
