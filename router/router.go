@@ -32,6 +32,9 @@ func Init() *gin.Engine {
 		user.POST("/login", service.Login())
 		user.POST("/register", service.Register())
 		user.POST("/send-code", service.SendCode())
+
+		// 用户提交代码的方法 需要验证用户是否登录
+		user.POST("/submit", middleware.AuthUserCheck(), service.SubmitCode())
 	}
 
 	// 排行榜
