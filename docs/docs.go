@@ -618,6 +618,45 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/submit": {
+            "post": {
+                "description": "用户提交代码",
+                "tags": [
+                    "用户私有方法"
+                ],
+                "summary": "用户提交代码",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户token",
+                        "name": "authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "问题的唯一标识",
+                        "name": "problem_identity",
+                        "in": "query"
+                    },
+                    {
+                        "description": "用户提交的代码",
+                        "name": "code",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{“code”: \"200\", \"msg\":\"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     }
 }`
