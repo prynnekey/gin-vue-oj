@@ -7,9 +7,9 @@ import (
 )
 
 type UserClaims struct {
-	Identity string `json:"identity"`
-	Username string `json:"username"`
-	IsAdmin  int    `json:"is_admin"`
+	Identity string `json:"identity"` // 用户的唯一标识
+	Username string `json:"username"` // 用户名
+	IsAdmin  int    `json:"is_admin"` // 该用户是否用于管理员权限
 	jwt.StandardClaims
 }
 
